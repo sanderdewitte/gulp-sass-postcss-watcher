@@ -78,10 +78,15 @@ RUN wget -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERS
   && tar -xzf "node.tar.gz" -C /usr/local --strip-components=1 \
   && rm "node.tar.gz"
 
-# install gulp toolkit and node-sass library providing bindings for node.js to libsass
+# install gulp toolkit,
+# node-sass library (providing bindings for node.js to libsass) and
+# postcss (tool for transforming styles with JS plugins)
 RUN npm install --global gulp-cli \
   && npm install --global gulp \
-  && npm install --global node-sass
+  && npm install --global node-sass \
+  && npm install --global postcss \
+  && npm install --global postcss-cssnext \
+  && npm install --global gulp-postcss
 
 VOLUME /src
 WORKDIR /src
