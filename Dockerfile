@@ -56,7 +56,7 @@ RUN set -ex \
 RUN gem install bundler --version "$BUNDLER_VERSION" \
   && mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
   && chmod 777 "$GEM_HOME" "$BUNDLE_BIN"
-RUN { echo "source https://rubygems.org"; echo "ruby $RUBY_VERSION"; echo "gem listen"; echo "gem sass"; echo "gem bourbon"; echo "gem neat"; echo "gem bitters"; } > /usr/local/etc/Gemfile \
+RUN { echo "source \"https://rubygems.org\""; echo "ruby \"$RUBY_VERSION\""; echo "gem \"listen\""; echo "gem \"sass\""; echo "gem \"bourbon\""; echo "gem \"neat\""; echo "gem \"bitters\""; } > /usr/local/etc/Gemfile \
   && cd /usr/local/etc && bundle install
 
 # download, compile and install libsass (C/C++ implementation of the sass compiler) and sassc (libsass command line driver)
