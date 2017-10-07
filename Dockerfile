@@ -2,11 +2,11 @@ FROM ubuntu:xenial
 
 # update image and install tools
 RUN set -ex \
-  && apt-get update -qq \
-  && apt-get upgrade -qq \
+  && apt-get -qq update \
+  && apt-get -qq upgrade \
   && essentialTools='apt-utils wget git' \
-  && buildTools='build-essential autoconf libssl-dev libreadline-dev zlib1g-dev' \
-  && apt-get install -y --no-install-recommends $essentialTools $buildTools
+  && buildTools='build-essential autoconf' \
+  && apt-get -qq install -y --no-install-recommends $essentialTools $buildTools
 
 # set versions
 ENV RUBY_MAJOR 2.4
@@ -32,8 +32,8 @@ ENV NPM_CONFIG_LOGLEVEL info
 RUN mkdir -p /usr/local/etc \
   && { echo 'install: --no-document'; echo 'update: --no-document'; } >> /usr/local/etc/gemrc
 RUN set -ex \
-  && buildDeps='bison libgdbm-dev ruby' \
-  && apt-get install -y --no-install-recommends $buildDeps \
+  && buildDeps='bison libgdbm-dev libssl-dev libreadline-dev zlib1g-dev ruby' \
+  && apt-get -qq install -y --no-install-recommends $buildDeps \
   && rm -rf /var/lib/apt/lists/* \
   && wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" \
   && mkdir -p /usr/src/ruby \
@@ -47,7 +47,7 @@ RUN set -ex \
   && ./configure --build="$gnuArch" --disable-install-doc --enable-shared \
   && make -j "$(nproc)" \
   && make install \
-  && apt-get purge -y --auto-remove $buildDeps \
+  && apt-get -qq purge -y --auto-remove $buildDeps \
   && cd / \
   && rm -r /usr/src/ruby \
   && gem update --system "$RUBYGEMS_VERSION"
@@ -56,8 +56,8 @@ RUN set -ex \
 RUN gem install bundler --version "$BUNDLER_VERSION" \
   && mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
   && chmod 777 "$GEM_HOME" "$BUNDLE_BIN"
-RUN { echo "source https://rubygems.org"; echo "ruby $RUBY_VERSION"; echo "gem listen"; echo "gem sass"; echo "gem bourbon"; echo "gem neat"; echo "gem bitters"} > /usr/local/etc/Gemfile \
-  && cd /usr/local/etc && bundle install && cd /
+RUN { echo "source https://rubygems.org"; echo "ruby $RUBY_VERSION"; echo "gem listen"; echo "gem sass"; echo "gem bourbon"; echo "gem neat"; echo "gem bitters"; } > /usr/local/etc/Gemfile \
+  && cd /usr/local/etc && bundle install
 
 # download, compile and install libsass (C/C++ implementation of the sass compiler) and sassc (libsass command line driver)
 RUN cd /usr/local/lib \
@@ -69,7 +69,7 @@ RUN cd /usr/local/lib \
   && make -C sassc \
   && make -C sassc install \
   && make clean \
-  && apt-get purge -y --auto-remove $buildTools
+  && apt-get -qq purge -y --auto-remove $buildTools
 
 # install node.js
 RUN wget -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
