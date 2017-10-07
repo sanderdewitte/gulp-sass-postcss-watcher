@@ -1,0 +1,30 @@
+{
+  "name": "gulp-sass-postcss-watcher",
+  "description": "PostCSS plugins for watching and processing Sass/PostCSS source code changes to CSS using Gulp.",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified.\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sanderdewitte/gulp-sass-postcss-watcher.git"
+  },
+  "keywords": [],
+  "author": "Sander de Witte",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sanderdewitte/gulp-sass-postcss-watcher/issues"
+  },
+  "homepage": "https://github.com/sanderdewitte/gulp-sass-postcss-watcher"
+  "dependencies": {
+    "postcss-cssnext": "latest",
+    "postcss-neat": "latest",
+    "postcss-node-sass": "latest",
+    "postcss-font-magician": "latest",
+    "autoprefixer": "latest",
+    "colorguard": "latest",
+    "stylelint": "latest",
+    "cssnano": "latest"
+  },
+  "private": true
+}
