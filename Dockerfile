@@ -78,13 +78,14 @@ RUN wget -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERS
  && tar -xzf "node.tar.gz" -C /usr/local --strip-components=1 \
  && rm "node.tar.gz"
 
-# install postcss, gulp toolkit and the node-sass library (providing bindings for node.js to libsass)
+# install postcss, the gulp toolkit, the node-sass library and the smaller version of the caniuse-db
 RUN npm install --global postcss \
  && npm install --global gulp-cli \
  && npm install --global gulp \
  && npm install --global gulp-postcss \
- && npm install --global gulp-sass
- && npm install --global node-sass
+ && npm install --global gulp-sass \
+ && npm install --global node-sass \
+ && npm install --global caniuse-lite \
 
 # install postcss plugins via package.json file
 ADD package.json /var/tmp/package.json
