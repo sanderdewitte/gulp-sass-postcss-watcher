@@ -26,7 +26,7 @@ ENV BUNDLE_APP_CONFIG="$GEM_HOME"
 ENV PATH $BUNDLE_BIN:$PATH
 
 # set log level for node.js package manager
-ENV NPM_CONFIG_LOGLEVEL silent
+ENV NPM_CONFIG_LOGLEVEL error
 
 # download, compile and install ruby
 RUN mkdir -p /usr/local/etc \
@@ -79,7 +79,8 @@ RUN wget -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERS
   && rm "node.tar.gz"
 
 # install gulp toolkit and node-sass library providing bindings for node.js to libsass
-RUN npm install --global gulp \
+RUN npm install --global gulp-cli \
+  && npm install --global gulp \
   && npm install --global node-sass
 
 VOLUME /src
