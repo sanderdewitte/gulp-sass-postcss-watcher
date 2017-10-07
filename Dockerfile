@@ -1,7 +1,7 @@
 FROM ubuntu:xenial
 
-# update image and install tools
-RUN apt-get update -qq && apt-get upgrade -qq && apt-get install -y --no-install-recommends build-essential git
+# update image and install essential tools
+RUN set -ex && apt-get update -qq && apt-get upgrade -qq && essentialTools='apt-utils build-essential wget git' && apt-get install -y --no-install-recommends $essentialTools
 
 # set versions
 ENV RUBY_MAJOR 2.4
@@ -25,24 +25,24 @@ ENV NPM_CONFIG_LOGLEVEL info
 
 # download, compile and install ruby
 RUN mkdir -p /usr/local/etc && { echo 'install: --no-document'; echo 'update: --no-document'; } >> /usr/local/etc/gemrc
-RUN set -ex && buildDeps='bison dpkg-dev libgdbm-dev ruby' && apt-get install -y --no-install-recommends $buildDeps \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" \
-	&& mkdir -p /usr/src/ruby \
+RUN set -ex && buildDeps='bison libgdbm-dev ruby' && apt-get install -y --no-install-recommends $buildDeps \
+  && rm -rf /var/lib/apt/lists/* \
+  && wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" \
+  && mkdir -p /usr/src/ruby \
   && tar -xJf ruby.tar.xz -C /usr/src/ruby --strip-components=1 \
   && rm ruby.tar.xz \
-	&& cd /usr/src/ruby \
+  && cd /usr/src/ruby \
   && { echo '#define ENABLE_PATH_CHECK 0'; echo; cat file.c; } > file.c.new \
   && mv file.c.new file.c \
-	&& autoconf \
-	&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
-	&& ./configure --build="$gnuArch" --disable-install-doc --enable-shared \
-	&& make -j "$(nproc)" \
+  && autoconf \
+  && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
+  && ./configure --build="$gnuArch" --disable-install-doc --enable-shared \
+  && make -j "$(nproc)" \
   && make install \
-	&& apt-get purge -y --auto-remove $buildDeps \
-	&& cd / \
+  && apt-get purge -y --auto-remove $buildDeps \
+  && cd / \
   && rm -r /usr/src/ruby \
-	&& gem update --system "$RUBYGEMS_VERSION"
+  && gem update --system "$RUBYGEMS_VERSION"
 
 # install bundler and gems
 RUN gem install bundler --version "$BUNDLER_VERSION" \
