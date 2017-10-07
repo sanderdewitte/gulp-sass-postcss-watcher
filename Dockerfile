@@ -47,7 +47,7 @@ RUN set -ex \
   && ./configure --build="$gnuArch" --disable-install-doc --enable-shared \
   && make -j "$(nproc)" \
   && make install \
-  && apt-get purge -y --auto-remove $buildDeps
+  && apt-get purge -y --auto-remove $buildDeps \
   && cd / \
   && rm -r /usr/src/ruby \
   && gem update --system "$RUBYGEMS_VERSION"
