@@ -85,7 +85,7 @@ RUN npm install --global postcss \
  && npm install --global gulp-postcss \
  && npm install --global gulp-sass \
  && npm install --global node-sass \
- && npm install --global caniuse-lite \
+ && npm install --global caniuse-lite
 
 # install postcss plugins via package.json file
 ADD package.json /var/tmp/package.json
