@@ -1,7 +1,7 @@
 FROM ubuntu:xenial
 
 # update image and install essential tools
-RUN set -ex && apt-get update -qq && apt-get upgrade -qq && essentialTools='apt-utils build-essential wget git' && apt-get install -y --no-install-recommends $essentialTools
+RUN set -ex && apt-get update -qq && apt-get upgrade -qq && essentialTools='apt-utils build-essential autoconf wget git' && apt-get install -y --no-install-recommends $essentialTools
 
 # set versions
 ENV RUBY_MAJOR 2.4
