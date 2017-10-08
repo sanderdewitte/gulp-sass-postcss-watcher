@@ -105,4 +105,4 @@ VOLUME ["$WORK_DIR"]
 WORKDIR $WORK_DIR
 
 # start executable
-ENTRYPOINT ["sass"]
+ENTRYPOINT ["gulp"]
