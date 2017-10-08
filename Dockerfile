@@ -62,7 +62,6 @@ RUN gem install bundler --version "$BUNDLER_VERSION" \
  && mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
  && chmod 777 "$GEM_HOME" "$BUNDLE_BIN" \
  && cd /var/tmp \
- && echo $PATH \
  && bundle install
  
 # download, compile and install libsass (C/C++ implementation of the sass compiler) and sassc (libsass command line driver)
@@ -85,8 +84,10 @@ RUN wget -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERS
 
 # install postcss, the gulp toolkit, the node-sass library and the smaller version of the caniuse-db
 RUN npm install --global postcss \
- && npm install --global gulp-cli \
  && npm install --global gulp \
+ && npm install --global gulp-cli \
+ && npm install --global gulp-util \
+ && npm install --global gulp-plumber \
  && npm install --global gulp-postcss \
  && npm install --global gulp-sass \
  && npm install --global node-sass \
