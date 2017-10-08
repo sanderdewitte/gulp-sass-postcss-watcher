@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/sanderdewitte/gulp-sass-postcss-watcher/issues"
   },
-  "homepage": "https://github.com/sanderdewitte/gulp-sass-postcss-watcher"
+  "homepage": "https://github.com/sanderdewitte/gulp-sass-postcss-watcher",
   "dependencies": {
     "postcss-cssnext": "latest",
     "postcss-neat": "latest",
