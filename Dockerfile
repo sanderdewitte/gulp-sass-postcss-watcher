@@ -66,7 +66,7 @@ RUN gem install bundler --version "$BUNDLER_VERSION" \
 RUN gemSource="https://rubygems.org" \
  && { echo "source \"$gemSource\""; \
       echo "ruby \"$RUBY_VERSION\""; \
-      echo "gem \"sass\", \"$GEM_SASS_VERSION"; \
+      echo "gem \"sass\", \"$GEM_SASS_VERSION\""; \
       echo "gem \"bourbon\", \"$GEM_BOURBON_VERSION\""; \
       echo "gem \"neat\", \"$GEM_NEAT_VERSION\""; \
       echo "gem \"bitters\", \"$GEM_BITTERS_VERSION\""; } > /usr/local/etc/Gemfile \
