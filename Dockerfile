@@ -27,7 +27,7 @@ ENV BUNDLE_PATH="$GEM_HOME" \
     BUNDLE_BIN="$GEM_HOME/bin" \
     BUNDLE_APP_CONFIG="$GEM_HOME"    
 
-# prepend bundle binaries to pathset, silence bundler warnings and set log level for node.js package manager
+# prepend bundle binaries to path, silence bundler warnings and set log level for node.js package manager
 ENV PATH=$BUNDLE_BIN:$PATH \
     BUNDLE_SILENCE_ROOT_WARNING=1 \
     NPM_CONFIG_LOGLEVEL=error
