@@ -9,24 +9,31 @@ RUN set -ex \
  && apt-get -qq install -y --no-install-recommends $essentialTools $buildTools
 
 # set versions
-ENV RUBY_MAJOR 2.4
-ENV RUBY_VERSION 2.4.2
-ENV RUBYGEMS_VERSION 2.6.13
-ENV BUNDLER_VERSION 1.15.4
-ENV NODE_VERSION 6.11.4
+ENV RUBY_MAJOR=2.4 \
+    RUBY_VERSION=2.4.2 \
+    RUBYGEMS_VERSION=2.6.13 \
+    BUNDLER_VERSION=1.15.4 \
+    NODE_VERSION=6.11.4
 
-# set bundler variables
-ENV GEM_HOME /usr/local/bundle
-ENV BUNDLE_PATH="$GEM_HOME"
-ENV BUNDLE_BIN="$GEM_HOME/bin"
-ENV BUNDLE_SILENCE_ROOT_WARNING=1
-ENV BUNDLE_APP_CONFIG="$GEM_HOME"
+# set gem versions
+ENV GEM_SASS_VERSION="~> 3.5" \
+    GEM_BOURBON_VERSION="~> 5.0.0.beta" \
+    GEM_NEAT_VERSION="~> 2.1" \
+    GEM_BITTERS_VERSION="~> 1.7"
 
-# prepend bundle binaries to path
-ENV PATH $BUNDLE_BIN:$PATH
+# set working directory and gem home 
+ENV GEM_HOME=/usr/local/bundle \
+    WORK_DIR=/data/src
+
+# set bundler variables and prepend bundle binaries to path
+ENV BUNDLE_PATH="$GEM_HOME" \
+    BUNDLE_BIN="$GEM_HOME/bin" \
+    BUNDLE_APP_CONFIG="$GEM_HOME" \
+    BUNDLE_SILENCE_ROOT_WARNING=1 \
+    PATH=$BUNDLE_BIN:$PATH
 
 # set log level for node.js package manager
-ENV NPM_CONFIG_LOGLEVEL error
+ENV NPM_CONFIG_LOGLEVEL=error
 
 # download, compile and install ruby
 RUN mkdir -p /usr/local/etc \
@@ -59,10 +66,10 @@ RUN gem install bundler --version "$BUNDLER_VERSION" \
 RUN gemSource="https://rubygems.org" \
  && { echo "source \"$gemSource\""; \
       echo "ruby \"$RUBY_VERSION\""; \
-      echo "gem \"sass\", \"~> 3.5\""; \
-      echo "gem \"bourbon\", \"~> 5.0.0.beta\""; \
-      echo "gem \"neat\", \"~> 2.1\""; \
-      echo "gem \"bitters\", \"~> 1.7\""; } > /usr/local/etc/Gemfile \
+      echo "gem \"sass\", \"$GEM_SASS_VERSION"; \
+      echo "gem \"bourbon\", \"$GEM_BOURBON_VERSION\""; \
+      echo "gem \"neat\", \"$GEM_NEAT_VERSION\""; \
+      echo "gem \"bitters\", \"$GEM_BITTERS_VERSION\""; } > /usr/local/etc/Gemfile \
  && cd /usr/local/etc && bundle install
 
 # download, compile and install libsass (C/C++ implementation of the sass compiler) and sassc (libsass command line driver)
@@ -97,6 +104,9 @@ ADD package.json /var/tmp/package.json
 RUN cd /var/tmp \
  && npm install
 
-VOLUME /src
-WORKDIR /src
-ENTRYPOINT [ "sass" ]
+# create externally mounted directory and set it as working directory
+VOLUME ["$WORK_DIR"]
+WORKDIR $WORK_DIR
+
+# start executable
+ENTRYPOINT ["sass"]
