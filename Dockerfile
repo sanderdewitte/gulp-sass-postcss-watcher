@@ -15,12 +15,6 @@ ENV RUBY_MAJOR=2.4 \
     BUNDLER_VERSION=1.15.4 \
     NODE_VERSION=6.11.4
 
-# set gem versions
-ENV GEM_SASS_VERSION="~> 3.5" \
-    GEM_BOURBON_VERSION="~> 5.0.0.beta" \
-    GEM_NEAT_VERSION="~> 2.1" \
-    GEM_BITTERS_VERSION="~> 1.7"
-
 # set gem home and working directory 
 ENV GEM_HOME=/usr/local/bundle \
     WORK_DIR=/data/src
@@ -60,22 +54,12 @@ RUN set -ex \
  && gem update --system "$RUBYGEMS_VERSION"
 
 # install bundler and gems
+ADD Gemfile /var/tmp/Gemfile
 RUN gem install bundler --version "$BUNDLER_VERSION" \
  && mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
- && chmod 777 "$GEM_HOME" "$BUNDLE_BIN"
-RUN gemSource="https://rubygems.org" \
- && rubyVersion=$RUBY_VERSION \
- && gemSassVersion=$GEM_SASS_VERSION \
- && gemBourbonVersion=$GEM_BOURBON_VERSION \
- && gemNeatVersion=$GEM_NEAT_VERSION \
- && gemBitterVersion=$GEM_BITTER_VERSION \
- && { echo "source \"$gemSource\""; \
-      echo "ruby \"$rubyVersion\""; \
-      echo "gem \"sass\", \"$gemSassVersion\""; \
-      echo "gem \"bourbon\", \"$gemBourbonVersion\""; \
-      echo "gem \"neat\", \"$gemNeatVersion\""; \
-      echo "gem \"bitters\", \"$gemBitterVersion\""; } > /var/tmp/Gemfile \
- && cd /var/tmp && bundle install
+ && chmod 777 "$GEM_HOME" "$BUNDLE_BIN" \
+ && cd /var/tmp \
+ && bundle install
  
 # download, compile and install libsass (C/C++ implementation of the sass compiler) and sassc (libsass command line driver)
 RUN cd /usr/local/lib \
