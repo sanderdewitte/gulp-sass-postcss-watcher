@@ -1,8 +1,7 @@
 FROM ubuntu:xenial
 
-# prevent installers from opening dialog boxes and set log level for node.js package manager
-ENV DEBIAN_FRONTEND=noninteractive \
-    NPM_CONFIG_LOGLEVEL=error
+# prevent installers from opening dialog boxes
+ENV DEBIAN_FRONTEND=noninteractive
 
 # update image and install tools
 RUN set -ex \
@@ -23,12 +22,15 @@ ENV RUBY_MAJOR=2.4 \
 ENV GEM_HOME=/usr/local/gems \
     WORK_DIR=/data/src
 
-# set bundler variables and prepend bundle binaries to path
+# set bundler variables
 ENV BUNDLE_PATH="$GEM_HOME" \
     BUNDLE_BIN="$GEM_HOME/bin" \
-    BUNDLE_APP_CONFIG="$GEM_HOME" \
+    BUNDLE_APP_CONFIG="$GEM_HOME"    
+
+# prepend bundle binaries to pathset, silence bundler warnings and set log level for node.js package manager
+ENV PATH=$BUNDLE_BIN:$PATH \
     BUNDLE_SILENCE_ROOT_WARNING=1 \
-    PATH=$BUNDLE_BIN:$PATH
+    NPM_CONFIG_LOGLEVEL=error
 
 # download, compile and install ruby
 RUN mkdir -p /usr/local/etc \
