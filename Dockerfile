@@ -1,5 +1,8 @@
 FROM ubuntu:xenial
 
+# prevent installers from opening dialog boxes
+ENV DEBIAN_FRONTEND=noninteractive
+
 # update image and install tools
 RUN set -ex \
  && apt-get -qq update \
@@ -59,6 +62,7 @@ RUN gem install bundler --version "$BUNDLER_VERSION" \
  && mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
  && chmod 777 "$GEM_HOME" "$BUNDLE_BIN" \
  && cd /var/tmp \
+ && echo $PATH \
  && bundle install
  
 # download, compile and install libsass (C/C++ implementation of the sass compiler) and sassc (libsass command line driver)
