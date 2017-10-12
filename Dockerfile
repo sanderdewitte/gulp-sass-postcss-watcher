@@ -18,8 +18,9 @@ ENV RUBY_MAJOR=2.4 \
     BUNDLER_VERSION=1.15.4 \
     NODE_VERSION=6.11.4
 
-# set gem home and working directory 
-ENV GEM_HOME=/usr/local/gems \
+# set node path, gem home and working directory 
+ENV NODE_PATH=/usr/local/lib/node_modules \
+    GEM_HOME=/usr/local/gems \
     WORK_DIR=/data/src
 
 # set bundler variables
@@ -96,9 +97,9 @@ RUN npm install --global postcss \
  && npm install --global caniuse-lite
 
 # link global gulp install locally, then install postcss plugins via package.json file
-ADD package.json /var/tmp/package.json
+ADD package.json /usr/local/lib/package.json
 RUN npm link gulp \
- && cd /var/tmp \
+ && cd /usr/local/lib \
  && npm install 
 
 # create externally mounted directory and set it as working directory
