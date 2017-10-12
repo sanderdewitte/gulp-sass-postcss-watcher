@@ -1,0 +1,7 @@
+version: 2
+services:
+  gulp-sass-postcss-watcher:
+    image: sdewitte/gulp-sass-postcss-watcher
+    command: watch --src /data/src/sass --dest /data/src/css
+    volumes:
+      - <project_directory>:/data/src
