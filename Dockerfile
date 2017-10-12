@@ -96,11 +96,10 @@ RUN npm install --global postcss \
  && npm install --global minimist \
  && npm install --global caniuse-lite
 
-# link global gulp install locally, then install postcss plugins via package.json file
+# install postcss plugins via package.json file
 ADD package.json /usr/local/lib/package.json
-RUN npm link gulp \
- && cd /usr/local/lib \
- && npm install 
+RUN cd /usr/local/lib \
+ && npm install
 
 # create externally mounted directory and set it as working directory
 VOLUME ["$WORK_DIR"]
