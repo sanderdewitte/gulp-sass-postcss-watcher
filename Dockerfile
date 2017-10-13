@@ -14,9 +14,9 @@ RUN set -ex \
 # set versions
 ENV RUBY_MAJOR=2.4 \
     RUBY_VERSION=2.4.2 \
-    RUBYGEMS_VERSION=2.6.13 \
+    RUBYGEMS_VERSION=2.6.14 \
     BUNDLER_VERSION=1.15.4 \
-    NODE_VERSION=7.10.1
+    NODE_VERSION=8.7.0
 
 # set node path, gem home and working directory 
 ENV NODE_PATH=/usr/local/lib/node_modules \
