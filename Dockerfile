@@ -78,9 +78,16 @@ RUN wget -nv -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_
  && tar -xzf "node.tar.gz" -C /usr/local --strip-components=1 \
  && rm "node.tar.gz"
 
+RUN 
+  
+  
+
 # install postcss, the node-sass library, the gulp toolkit, a package
 # for parsing argument options and the smaller version of the caniuse-db
-RUN npm install --global postcss \
+RUN cd $(npm root --global)/npm \
+ && npm install --global fs-extra \
+ && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js \
+ && npm install --global postcss \
  && npm install --global node-sass \
  && npm install --global gulp \
  && npm install --global gulp-cli \
