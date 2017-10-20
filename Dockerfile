@@ -34,7 +34,7 @@ RUN set -ex \
  && buildDeps='bison libgdbm-dev libssl-dev libreadline-dev zlib1g-dev ruby' \
  && apt-get -qq install -y --no-install-recommends $buildDeps \
  && rm -rf /var/lib/apt/lists/* \
- && wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" \
+ && wget -nv -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" \
  && mkdir -p /usr/src/ruby \
  && tar -xJf ruby.tar.xz -C /usr/src/ruby --strip-components=1 \
  && rm ruby.tar.xz \
@@ -73,7 +73,7 @@ RUN cd /usr/local/lib \
  && apt-get -qq purge -y --auto-remove $buildTools
 
 # install node.js
-RUN wget -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
+RUN wget -nv -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
  && tar -xzf "node.tar.gz" -C /usr/local --strip-components=1 \
  && rm "node.tar.gz"
 
