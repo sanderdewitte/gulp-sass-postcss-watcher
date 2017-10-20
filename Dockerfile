@@ -11,24 +11,19 @@ RUN set -ex \
  && buildTools='build-essential autoconf' \
  && apt-get -qq install -y --no-install-recommends $essentialTools $buildTools
 
-# set versions
+# set required software versions, node path, gem home, working directory, bundler variables (path, bin & app config),
+# prepend bundle binaries and node.js path to path, silence bundler warnings and set log level for node.js package manager
 ENV RUBY_MAJOR=2.4 \
     RUBY_VERSION=2.4.2 \
     RUBYGEMS_VERSION=2.6.14 \
     BUNDLER_VERSION=1.15.4 \
-    NODE_VERSION=6.11.4
-
-# set node path, gem home and working directory 
-ENV GEM_HOME=/usr/local/gems \
-    WORK_DIR=/data/src
-
-# set bundler variables
-ENV BUNDLE_PATH="$GEM_HOME" \
+    NODE_VERSION=6.11.4 \
+    GEM_HOME=/usr/local/gems \
+    WORK_DIR=/data/src \
+    BUNDLE_PATH="$GEM_HOME" \
     BUNDLE_BIN="$GEM_HOME/bin" \
-    BUNDLE_APP_CONFIG="$GEM_HOME"    
-
-# prepend bundle binaries and node.ja path to path, silence bundler warnings and set log level for node.js package manager
-ENV PATH=$BUNDLE_BIN:$NODE_PATH:$PATH \
+    BUNDLE_APP_CONFIG="$GEM_HOME" \
+    PATH=$BUNDLE_BIN:$NODE_PATH:$PATH \
     BUNDLE_SILENCE_ROOT_WARNING=1 \
     NPM_CONFIG_LOGLEVEL=error
 
