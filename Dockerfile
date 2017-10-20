@@ -1,7 +1,14 @@
 FROM ubuntu:xenial
 
-# prevent installers from opening dialog boxes
-ENV DEBIAN_FRONTEND=noninteractive
+# prevent installers from opening dialog boxes and set software versions, gem home & working directory
+ENV DEBIAN_FRONTEND=noninteractive \
+    RUBY_MAJOR=2.4 \
+    RUBY_VERSION=2.4.2 \
+    RUBYGEMS_VERSION=2.6.14 \
+    BUNDLER_VERSION=1.15.4 \
+    NODE_VERSION=6.11.4 \
+    GEM_HOME=/usr/local/gems \
+    WORK_DIR=/data/src
 
 # update image and install tools
 RUN set -ex \
@@ -11,21 +18,15 @@ RUN set -ex \
  && buildTools='build-essential autoconf' \
  && apt-get -qq install -y --no-install-recommends $essentialTools $buildTools
 
-# set required software versions, node path, gem home, working directory, bundler variables (path, bin & app config),
-# prepend bundle binaries and node.js path to path, silence bundler warnings and set log level for node.js package manager
-ENV RUBY_MAJOR=2.4 \
-    RUBY_VERSION=2.4.2 \
-    RUBYGEMS_VERSION=2.6.14 \
-    BUNDLER_VERSION=1.15.4 \
-    NODE_VERSION=6.11.4 \
-    GEM_HOME=/usr/local/gems \
-    WORK_DIR=/data/src \
-    BUNDLE_PATH="$GEM_HOME" \
+# set bundler variables
+ENV BUNDLE_PATH="$GEM_HOME" \
     BUNDLE_BIN="$GEM_HOME/bin" \
     BUNDLE_APP_CONFIG="$GEM_HOME" \
-    PATH=$BUNDLE_BIN:$NODE_PATH:$PATH \
-    BUNDLE_SILENCE_ROOT_WARNING=1 \
-    NPM_CONFIG_LOGLEVEL=error
+    BUNDLE_SILENCE_ROOT_WARNING=1
+
+# set log level for node.js package manager and add bundle binaries to path
+ENV NPM_CONFIG_LOGLEVEL=error \
+    PATH=$BUNDLE_BIN:$PATH
 
 # download, compile and install ruby
 RUN mkdir -p /usr/local/etc \
