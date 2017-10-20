@@ -78,10 +78,6 @@ RUN wget -nv -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_
  && tar -xzf "node.tar.gz" -C /usr/local --strip-components=1 \
  && rm "node.tar.gz"
 
-RUN 
-  
-  
-
 # install postcss, the node-sass library, the gulp toolkit, a package
 # for parsing argument options and the smaller version of the caniuse-db
 RUN cd $(npm root --global)/npm \
