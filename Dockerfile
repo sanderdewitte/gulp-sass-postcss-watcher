@@ -78,17 +78,16 @@ RUN wget -nv -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_
  && tar -xzf "node.tar.gz" -C /usr/local --strip-components=1 \
  && rm "node.tar.gz"
 
-# set permissions and install postcss, the gulp toolkit, the node-sass library,
-# a package for parsing argument options and the smaller version of the caniuse-db
-RUN chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share} \
- && npm install --global postcss \
+# install postcss, the node-sass library, the gulp toolkit, a package
+# for parsing argument options and the smaller version of the caniuse-db
+RUN npm install --global postcss \
+ && npm install --global node-sass \
  && npm install --global gulp \
  && npm install --global gulp-cli \
  && npm install --global gulp-util \
  && npm install --global gulp-plumber \
  && npm install --global gulp-postcss \
  && npm install --global gulp-sass \
- && npm install --global node-sass \
  && npm install --global minimist \
  && npm install --global caniuse-lite
 
