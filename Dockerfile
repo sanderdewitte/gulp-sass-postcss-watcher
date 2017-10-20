@@ -16,7 +16,7 @@ ENV RUBY_MAJOR=2.4 \
     RUBY_VERSION=2.4.2 \
     RUBYGEMS_VERSION=2.6.14 \
     BUNDLER_VERSION=1.15.4 \
-    NODE_VERSION=8.7.0
+    NODE_VERSION=6.11.4
 
 # set node path, gem home and working directory 
 ENV GEM_HOME=/usr/local/gems \
