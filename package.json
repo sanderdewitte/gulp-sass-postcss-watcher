@@ -1,6 +1,6 @@
 {
-  "name": "gulp-sass-postcss-watcher",
-  "description": "PostCSS plugins for watching and processing Sass/PostCSS source code changes to CSS using Gulp.",
+  "name": "gulp-sass-postcss-watcher-postcss-plugins",
+  "description": "PostCSS plugins for watching and processing Sass/PostCSS source code changes to CSS using Gulp",
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified.\" && exit 1"
