@@ -30,7 +30,7 @@ ENV PATH=$BUNDLE_BIN:$PATH \
 
 # download, compile and install ruby
 RUN mkdir -p /usr/local/etc \
- && { echo 'install: --no-document'; echo 'update: --no-document'; } >> /usr/local/etc/gemrc
+ && { echo 'install: --no-document --no-prerelease'; echo 'update: --no-document --no-prerelease'; } >> /usr/local/etc/gemrc
 RUN set -ex \
  && buildDeps='bison libgdbm-dev libssl-dev libreadline-dev zlib1g-dev ruby' \
  && apt-get -qq install -y --no-install-recommends $buildDeps \
@@ -51,7 +51,7 @@ RUN set -ex \
  && apt-get -qq purge -y --auto-remove $buildDeps \
  && cd / \
  && rm -r /usr/src/ruby \
- && gem update --system "$RUBYGEMS_VERSION"
+ && gem update --system --no-post-install-message "$RUBYGEMS_VERSION"
 
 # install bundler and gems
 ADD Gemfile /var/tmp/Gemfile
