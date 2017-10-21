@@ -24,9 +24,9 @@ ENV BUNDLE_PATH="$GEM_HOME" \
     BUNDLE_APP_CONFIG="$GEM_HOME" \
     BUNDLE_SILENCE_ROOT_WARNING=1
 
-# set log level for node.js package manager and add bundle binaries to path
-ENV NPM_CONFIG_LOGLEVEL=error \
-    PATH=$BUNDLE_BIN:$PATH
+# add bundle binaries to path and set log level for node.js package manager 
+ENV PATH=$BUNDLE_BIN:$PATH \
+    NPM_CONFIG_LOGLEVEL=error \
 
 # download, compile and install ruby
 RUN mkdir -p /usr/local/etc \
@@ -73,16 +73,20 @@ RUN cd /usr/local/lib \
  && make -C sassc clean \
  && apt-get -qq purge -y --auto-remove $buildTools
 
-# install node.js
+# install node.js (including node package manager npm), cleanup and install fs-extra package
+# (file system methods that are not included in the native fs module), then apply patch to rename.js
 RUN wget -nv -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
  && tar -xzf "node.tar.gz" -C /usr/local --strip-components=1 \
- && rm "node.tar.gz"
-
-# install postcss, the node-sass library, the gulp toolkit, a package
-# for parsing argument options and the smaller version of the caniuse-db
-RUN cd $(npm root --global)/npm \
+ && rm "node.tar.gz" \
+ && cd $(npm root --global)/npm \
  && npm install --global fs-extra \
- && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js \
+ && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js
+
+# install a package for parsing argument options and the smaller version of the caniuse-db,
+# postcss, the node-sass library and the gulp toolkit (including gulp-postcss and gulp-sass) 
+RUN cd $(npm root --global)/npm \
+ && npm install --global minimist \
+ && npm install --global caniuse-lite \
  && npm install --global postcss \
  && npm install --global node-sass \
  && npm install --global gulp \
@@ -90,9 +94,7 @@ RUN cd $(npm root --global)/npm \
  && npm install --global gulp-util \
  && npm install --global gulp-plumber \
  && npm install --global gulp-postcss \
- && npm install --global gulp-sass \
- && npm install --global minimist \
- && npm install --global caniuse-lite
+ && npm install --global gulp-sass
 
 # install postcss plugins via package.json file
 ADD package.json /usr/local/lib/package.json
