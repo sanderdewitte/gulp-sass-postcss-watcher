@@ -51,7 +51,7 @@ RUN set -ex \
  && apt-get -qq purge -y --auto-remove $buildDeps \
  && cd / \
  && rm -r /usr/src/ruby \
- && gem update --system --no-post-install-message "$RUBYGEMS_VERSION"
+ && gem update --system "$RUBYGEMS_VERSION" --no-post-install-message
 
 # install bundler and gems
 ADD Gemfile /var/tmp/Gemfile
