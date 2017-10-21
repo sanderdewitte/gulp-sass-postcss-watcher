@@ -88,7 +88,7 @@ RUN cd $(npm root --global)/npm \
  && npm install --global minimist \
  && npm install --global caniuse-lite \
  && npm install --global postcss \
- && npm install --global node-sass \
+ && npm install --global --unsafe-perm node-sass \
  && npm install --global gulp \
  && npm install --global gulp-cli \
  && npm install --global gulp-util \
