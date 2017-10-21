@@ -26,7 +26,7 @@ ENV BUNDLE_PATH="$GEM_HOME" \
 
 # add bundle binaries to path and set log level for node.js package manager 
 ENV PATH=$BUNDLE_BIN:$PATH \
-    NPM_CONFIG_LOGLEVEL=error \
+    NPM_CONFIG_LOGLEVEL=error
 
 # download, compile and install ruby
 RUN mkdir -p /usr/local/etc \
