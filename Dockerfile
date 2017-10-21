@@ -94,7 +94,7 @@ RUN cd $(npm root --global)/npm \
  && npm install --global gulp-util \
  && npm install --global gulp-plumber \
  && npm install --global gulp-postcss \
- && npm install --global gulp-sass
+ && npm install --global --unsafe-perm gulp-sass
 
 # install postcss plugins via package.json file
 ADD package.json /usr/local/lib/package.json
