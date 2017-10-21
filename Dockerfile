@@ -47,6 +47,7 @@ RUN set -ex \
  && ./configure --build="$gnuArch" --disable-install-doc --enable-shared \
  && make -j "$(nproc)" \
  && make install \
+ && make clean \
  && apt-get -qq purge -y --auto-remove $buildDeps \
  && cd / \
  && rm -r /usr/src/ruby \
