@@ -10,6 +10,13 @@ ENV DEBIAN_FRONTEND=noninteractive \
     GEM_HOME=/usr/local/gems \
     WORK_DIR=/data/src
 
+# set bundler variables and set log level for node.js package manager
+ENV BUNDLE_PATH="$GEM_HOME" \
+    BUNDLE_BIN="$GEM_HOME/bin" \
+    BUNDLE_APP_CONFIG="$GEM_HOME" \
+    BUNDLE_SILENCE_ROOT_WARNING=1 \
+    NPM_CONFIG_LOGLEVEL=error
+
 # update image and install tools
 RUN set -ex \
  && apt-get -qq update \
@@ -17,13 +24,6 @@ RUN set -ex \
  && essentialTools='apt-utils wget git' \
  && buildTools='build-essential autoconf' \
  && apt-get -qq install -y --no-install-recommends $essentialTools $buildTools
-
-# set bundler variables and set log level for node.js package manager
-ENV BUNDLE_PATH="$GEM_HOME" \
-    BUNDLE_BIN="$GEM_HOME/bin" \
-    BUNDLE_APP_CONFIG="$GEM_HOME" \
-    BUNDLE_SILENCE_ROOT_WARNING=1 \
-    NPM_CONFIG_LOGLEVEL=error
 
 # download, compile and install ruby
 RUN mkdir -p /usr/local/etc \
