@@ -96,7 +96,7 @@ RUN cd $(npm root --global)/npm \
  && npm install --global --unsafe-perm gulp-sass
 
 # update path with node binaries and install postcss plugins via package.json file
-ENV PATH="/usr/local/node_modules/.bin:$PATH"
+ENV PATH="/usr/local/node_modules/bin:$PATH"
 ADD package.json /usr/local/lib/package.json
 RUN cd /usr/local/lib \
  && npm install
