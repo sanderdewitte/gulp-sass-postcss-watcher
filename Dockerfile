@@ -50,11 +50,12 @@ RUN set -ex \
  && rm -r /usr/src/ruby \
  && gem update --system "$RUBYGEMS_VERSION" --no-post-install-message
 
-# install bundler and gems
+# update path with gem binaries and install bundler and other gems
+ENV PATH=$BUNDLE_BIN:$PATH
 ADD Gemfile /var/tmp/Gemfile
-RUN gem install bundler --version "$BUNDLER_VERSION" \
- && mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
+RUN mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
  && chmod 777 "$GEM_HOME" "$BUNDLE_BIN" \
+ && gem install bundler --version "$BUNDLER_VERSION" \
  && cd /var/tmp \
  && bundle install
  
@@ -94,13 +95,11 @@ RUN cd $(npm root --global)/npm \
  && npm install --global gulp-postcss \
  && npm install --global --unsafe-perm gulp-sass
 
-# install postcss plugins via package.json file
+# update path with node binaries and install postcss plugins via package.json file
+ENV PATH=/usr/local/node_modules/.bin:$PATH
 ADD package.json /usr/local/lib/package.json
 RUN cd /usr/local/lib \
  && npm install
-
-# update path with node and gem binaries
-ENV PATH=/usr/local/node_modules/.bin:$BUNDLE_BIN:$PATH
 
 # create externally mounted directory and set it as working directory
 VOLUME ["$WORK_DIR"]
