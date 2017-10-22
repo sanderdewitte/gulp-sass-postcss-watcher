@@ -18,14 +18,11 @@ RUN set -ex \
  && buildTools='build-essential autoconf' \
  && apt-get -qq install -y --no-install-recommends $essentialTools $buildTools
 
-# set bundler variables
+# set bundler variables and set log level for node.js package manager
 ENV BUNDLE_PATH="$GEM_HOME" \
     BUNDLE_BIN="$GEM_HOME/bin" \
     BUNDLE_APP_CONFIG="$GEM_HOME" \
-    BUNDLE_SILENCE_ROOT_WARNING=1
-
-# add bundle binaries to path and set log level for node.js package manager 
-ENV PATH=$BUNDLE_BIN:$PATH \
+    BUNDLE_SILENCE_ROOT_WARNING=1 \
     NPM_CONFIG_LOGLEVEL=error
 
 # download, compile and install ruby
@@ -101,6 +98,9 @@ RUN cd $(npm root --global)/npm \
 ADD package.json /usr/local/lib/package.json
 RUN cd /usr/local/lib \
  && npm install
+
+# update path with node and gem binaries
+ENV PATH=/usr/local/node_modules/.bin:$BUNDLE_BIN:$PATH
 
 # create externally mounted directory and set it as working directory
 VOLUME ["$WORK_DIR"]
