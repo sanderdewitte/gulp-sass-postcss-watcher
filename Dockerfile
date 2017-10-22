@@ -51,7 +51,7 @@ RUN set -ex \
  && gem update --system "$RUBYGEMS_VERSION" --no-post-install-message
 
 # update path with gem binaries and install bundler and other gems
-ENV PATH=$BUNDLE_BIN:$PATH
+ENV PATH="$BUNDLE_BIN:$PATH"
 ADD Gemfile /var/tmp/Gemfile
 RUN mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
  && chmod 777 "$GEM_HOME" "$BUNDLE_BIN" \
@@ -72,7 +72,7 @@ RUN cd /usr/local/lib \
  && make -C sassc clean \
  && apt-get -qq purge -y --auto-remove $buildTools
 
-# install node.js (including node package manager npm), cleanup and install fs-extra package
+# install node.js (including node package manager npm), cleanup download and install fs-extra package
 # (file system methods that are not included in the native fs module), then apply patch to rename.js
 RUN wget -nv -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
  && tar -xzf "node.tar.gz" -C /usr/local --strip-components=1 \
@@ -96,7 +96,7 @@ RUN cd $(npm root --global)/npm \
  && npm install --global --unsafe-perm gulp-sass
 
 # update path with node binaries and install postcss plugins via package.json file
-ENV PATH=/usr/local/node_modules/.bin:$PATH
+ENV PATH="/usr/local/node_modules/.bin:$PATH"
 ADD package.json /usr/local/lib/package.json
 RUN cd /usr/local/lib \
  && npm install
