@@ -105,4 +105,5 @@ WORKDIR $WORK_DIR
 # link global gulp and start main executable using script
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
+ENV NODE_PATH="$(npm root --global)"
 ENTRYPOINT ["/docker-entrypoint.sh"]
