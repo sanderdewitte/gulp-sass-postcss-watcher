@@ -70,8 +70,8 @@ RUN cd /usr/local/lib \
  && make -C sassc clean \
  && apt-get -qq purge -y --auto-remove $buildTools
 
-# install node.js (including node package manager npm), cleanup download and install fs-extra package
-# (file system methods that are not included in the native fs module), then apply patch to rename.js
+# download and install node.js (including node.js package manager npm) and the fs-extra package
+# (for file system methods that are not included in the native fs module), apply patch to rename.js
 RUN wget -nv -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
  && tar -xzf "node.tar.gz" -C /usr/local --strip-components=1 \
  && rm "node.tar.gz" \
