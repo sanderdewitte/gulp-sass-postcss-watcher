@@ -103,4 +103,5 @@ VOLUME ["$WORK_DIR"]
 WORKDIR $WORK_DIR
 
 # link global gulp and start main executable
-ENTRYPOINT ["npm", "link", "gulp", "&&", "gulp"]
+CMD ["npm", "link", "gulp"]
+ENTRYPOINT ["gulp"]
