@@ -4,7 +4,7 @@ FROM ubuntu:xenial
 ENV DEBIAN_FRONTEND=noninteractive \
     RUBY_MAJOR=2.4 \
     RUBY_VERSION=2.4.2 \
-    RUBYGEMS_VERSION=2.6.14 \
+    RUBYGEMS_VERSION=2.7.2 \
     BUNDLER_VERSION=1.15.4 \
     NODE_VERSION=6.11.4 \
     GEM_HOME=/usr/local/gems \
