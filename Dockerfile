@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     RUBY_VERSION=2.4.2 \
     RUBYGEMS_VERSION=2.7.2 \
     BUNDLER_VERSION=1.16.0 \
-    NODE_VERSION=6.11.4 \
+    NODE_VERSION=6.12.0 \
     GEM_HOME=/usr/local/gems \
     WORK_DIR=/data/src
 
