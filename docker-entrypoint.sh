@@ -33,6 +33,6 @@ set -- "${POSITIONAL[@]}"
 
 if [ $WATCH ]; then
     cd $WORK_DIR
-    npm link gulp
+    npm link gulp && npm link gulp-util
     gulp watch --src $SOURCE --dest $DESTINATION
 fi
