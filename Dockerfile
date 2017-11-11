@@ -102,5 +102,5 @@ RUN cd /usr/local/lib \
 VOLUME ["$WORK_DIR"]
 WORKDIR $WORK_DIR
 
-# start executable
-ENTRYPOINT ["gulp"]
+# link global gulp and start main executable
+ENTRYPOINT ["npm link gulp && gulp"]
