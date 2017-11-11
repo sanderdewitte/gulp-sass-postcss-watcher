@@ -102,6 +102,7 @@ RUN cd /usr/local/lib \
 VOLUME ["$WORK_DIR"]
 WORKDIR $WORK_DIR
 
-# link global gulp and start main executable
+# link global gulp and start main executable using script
 COPY docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
