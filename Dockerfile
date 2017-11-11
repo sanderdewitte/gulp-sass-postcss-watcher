@@ -50,7 +50,7 @@ RUN buildDeps='bison libgdbm-dev libssl-dev libreadline-dev zlib1g-dev ruby' \
 
 # update path with gem binaries and install bundler and other gems
 ENV PATH="$BUNDLE_BIN:$PATH"
-ADD Gemfile /var/tmp/Gemfile
+COPY Gemfile /var/tmp/Gemfile
 RUN mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
  && chmod 777 "$GEM_HOME" "$BUNDLE_BIN" \
  && gem install bundler --version "$BUNDLER_VERSION" \
@@ -94,7 +94,7 @@ RUN cd $(npm root --global)/npm \
  && npm install --global --unsafe-perm gulp-sass
 
 # install postcss plugins via package.json file
-ADD package.json /usr/local/lib/package.json
+COPY package.json /usr/local/lib/package.json
 RUN cd /usr/local/lib \
  && npm install
 
@@ -103,5 +103,5 @@ VOLUME ["$WORK_DIR"]
 WORKDIR $WORK_DIR
 
 # link global gulp and start main executable
-CMD ["npm", "link", "gulp"]
-ENTRYPOINT ["gulp"]
+COPY docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
