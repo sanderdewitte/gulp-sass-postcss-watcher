@@ -11,6 +11,7 @@ do
         watch)
             WATCH=1
             shift
+            ;;
         -s|--src)
             SOURCE="$2"
             shift
