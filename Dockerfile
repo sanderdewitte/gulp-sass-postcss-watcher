@@ -18,8 +18,7 @@ ENV BUNDLE_PATH="$GEM_HOME" \
     NPM_CONFIG_LOGLEVEL=error
 
 # update image and install tools
-RUN set -ex \
- && apt-get -qq update \
+RUN apt-get -qq update \
  && apt-get -qq upgrade \
  && essentialTools='apt-utils wget git' \
  && buildTools='build-essential autoconf' \
@@ -28,8 +27,7 @@ RUN set -ex \
 # download, compile and install ruby
 RUN mkdir -p /usr/local/etc \
  && { echo 'install: --no-document --no-prerelease'; echo 'update: --no-document --no-prerelease'; } >> /usr/local/etc/gemrc
-RUN set -ex \
- && buildDeps='bison libgdbm-dev libssl-dev libreadline-dev zlib1g-dev ruby' \
+RUN buildDeps='bison libgdbm-dev libssl-dev libreadline-dev zlib1g-dev ruby' \
  && apt-get -qq install -y --no-install-recommends $buildDeps \
  && rm -rf /var/lib/apt/lists/* \
  && wget -nv -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" \
