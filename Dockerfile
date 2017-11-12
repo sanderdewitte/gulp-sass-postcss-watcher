@@ -98,9 +98,9 @@ COPY package.json /usr/local/lib/package.json
 RUN cd /usr/local/lib \
  && npm install
 
-# set NODE_PATH and add it to PATH
+# set NODE_PATH and add it at the end of PATH
 ENV NODE_PATH="/usr/local/lib/node_modules" \
-    PATH="/usr/local/bin:/usr/local/lib/node_modules:$PATH"
+    PATH="$PATH:/usr/local/lib/node_modules"
 
 # create externally mounted directory and set it as working directory
 VOLUME ["$WORK_DIR"]
