@@ -100,7 +100,7 @@ RUN cd /usr/local/lib \
 
 # set NODE_PATH and add it to PATH
 ENV NODE_PATH="/usr/local/lib/node_modules" \
-    PATH="/usr/local/lib/node_modules:$PATH"
+    PATH="/usr/local/bin:/usr/local/lib/node_modules:$PATH"
 
 # create externally mounted directory and set it as working directory
 VOLUME ["$WORK_DIR"]
