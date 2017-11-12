@@ -1,4 +1,5 @@
 FROM ubuntu:xenial
+MAINTAINER Sander de Witte
 
 # prevent installers from opening dialog boxes and set software versions, gem home & working directory
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -44,6 +45,7 @@ RUN buildDeps='bison libgdbm-dev libssl-dev libreadline-dev zlib1g-dev ruby' \
  && make install \
  && make clean \
  && apt-get -qq purge -y --auto-remove $buildDeps \
+ && apt-get clean \
  && cd / \
  && rm -r /usr/src/ruby \
  && export LANG=C.UTF-8 \
