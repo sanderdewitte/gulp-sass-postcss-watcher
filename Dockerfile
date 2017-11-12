@@ -46,6 +46,8 @@ RUN buildDeps='bison libgdbm-dev libssl-dev libreadline-dev zlib1g-dev ruby' \
  && apt-get -qq purge -y --auto-remove $buildDeps \
  && cd / \
  && rm -r /usr/src/ruby \
+ && export LANG="en_US.UTF-8" \
+ && export LC_ALL="en_US.UTF-8" \
  && gem update --system "$RUBYGEMS_VERSION" --no-post-install-message
 
 # update path with gem binaries and install bundler and other gems
