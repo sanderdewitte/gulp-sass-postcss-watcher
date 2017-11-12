@@ -71,16 +71,17 @@ RUN cd /usr/local/lib \
 
 # download and install node.js (including node.js package manager npm) and the fs-extra package
 # (for file system methods that are not included in the native fs module), apply patch to rename.js
-RUN wget -nv -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
+RUN cd /var/tmp \
+ && wget -nv -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
  && tar -xzf "node.tar.gz" -C /usr/local --strip-components=1 \
  && rm "node.tar.gz" \
- && cd $(npm root --global)/npm \
+ && cd $(npm root --global) \
  && npm install --global fs-extra \
  && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js
 
 # install a package for parsing argument options and the smaller version of the caniuse-db,
 # postcss, the node-sass library and the gulp toolkit (including gulp-postcss and gulp-sass) 
-RUN cd $(npm root --global)/npm \
+RUN cd $(npm root --global) \
  && npm install --global minimist \
  && npm install --global caniuse-lite \
  && npm install --global postcss \
@@ -90,13 +91,16 @@ RUN cd $(npm root --global)/npm \
  && npm install --global gulp-util \
  && npm install --global gulp-plumber \
  && npm install --global gulp-postcss \
- && npm install --global --unsafe-perm gulp-sass \
- && echo "$(npm root --global)/npm"
+ && npm install --global --unsafe-perm gulp-sass
 
 # install postcss plugins via package.json file
 COPY package.json /usr/local/lib/package.json
 RUN cd /usr/local/lib \
  && npm install
+
+# set NODE_PATH and add it to PATH
+ENV NODE_PATH="/usr/local/lib/node_modules" \
+    PATH="/usr/local/lib/node_modules:$PATH"
 
 # create externally mounted directory and set it as working directory
 VOLUME ["$WORK_DIR"]
