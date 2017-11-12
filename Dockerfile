@@ -53,6 +53,7 @@ ENV PATH="$BUNDLE_BIN:$PATH"
 COPY Gemfile /var/tmp/Gemfile
 RUN mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
  && chmod 777 "$GEM_HOME" "$BUNDLE_BIN" \
+ && export LANG="en_US.UTF-8" \
  && gem install bundler --version "$BUNDLER_VERSION" \
  && cd /var/tmp \
  && bundle install
