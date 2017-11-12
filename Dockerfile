@@ -78,10 +78,11 @@ RUN wget -nv -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_
  && cd $(npm root --global)/npm \
  && npm install --global fs-extra \
  && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js
+ENV NODE_PATH="$(npm root --global)/npm" 
 
 # install a package for parsing argument options and the smaller version of the caniuse-db,
 # postcss, the node-sass library and the gulp toolkit (including gulp-postcss and gulp-sass) 
-RUN cd $(npm root --global)/npm \
+RUN cd $NODE_PATH \
  && npm install --global minimist \
  && npm install --global caniuse-lite \
  && npm install --global postcss \
@@ -92,6 +93,7 @@ RUN cd $(npm root --global)/npm \
  && npm install --global gulp-plumber \
  && npm install --global gulp-postcss \
  && npm install --global --unsafe-perm gulp-sass
+ENV PATH="$NODE_PATH:$PATH"
 
 # install postcss plugins via package.json file
 COPY package.json /usr/local/lib/package.json
@@ -105,5 +107,4 @@ WORKDIR $WORK_DIR
 # link global gulp and start main executable using script
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
-ENV NODE_PATH="$(npm root --global)/npm"
 ENTRYPOINT ["/docker-entrypoint.sh"]
