@@ -67,8 +67,7 @@ RUN cd /usr/local/lib \
  && make -C libsass clean \
  && make -C sassc \
  && make -C sassc install \
- && make -C sassc clean \
- && apt-get -qq purge -y --auto-remove $buildTools
+ && make -C sassc clean
 
 # download and install node.js (including node.js package manager npm) and the fs-extra package
 # (for file system methods that are not included in the native fs module), apply patch to rename.js
@@ -78,11 +77,10 @@ RUN wget -nv -O node.tar.gz "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_
  && cd $(npm root --global)/npm \
  && npm install --global fs-extra \
  && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js
-ENV NODE_PATH="$(npm root --global)/npm" 
 
 # install a package for parsing argument options and the smaller version of the caniuse-db,
 # postcss, the node-sass library and the gulp toolkit (including gulp-postcss and gulp-sass) 
-RUN cd $NODE_PATH \
+RUN cd $(npm root --global)/npm \
  && npm install --global minimist \
  && npm install --global caniuse-lite \
  && npm install --global postcss \
@@ -92,8 +90,8 @@ RUN cd $NODE_PATH \
  && npm install --global gulp-util \
  && npm install --global gulp-plumber \
  && npm install --global gulp-postcss \
- && npm install --global --unsafe-perm gulp-sass
-ENV PATH="$NODE_PATH:$PATH"
+ && npm install --global --unsafe-perm gulp-sass \
+ && echo "$(npm root --global)/npm"
 
 # install postcss plugins via package.json file
 COPY package.json /usr/local/lib/package.json
