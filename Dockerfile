@@ -77,7 +77,7 @@ RUN cd /var/tmp \
  && rm "node.tar.gz" \
  && cd $(npm root --global) \
  && npm install --global fs-extra \
- && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js
+ && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./npm/lib/utils/rename.js
 
 # install a package for parsing argument options and the smaller version of the caniuse-db,
 # postcss, the node-sass library and the gulp toolkit (including gulp-postcss and gulp-sass) 
